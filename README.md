@@ -1,4 +1,4 @@
-# ArduinoWeatherStation (very work in progress)
+# ArduinoWeatherStation (work in progress)
 ### I am trying to make my own DIY weather station using the Arduino Uno and different sensors to meassure the current weather.
 
 ### TODO:
