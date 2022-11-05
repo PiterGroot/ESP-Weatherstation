@@ -3,27 +3,6 @@
   #include <NTPClient.h>
   #include <WiFiUdp.h>\
 
-  class Data{
-    public:
-      int time;
-      float temperature;
-      float humidity;
-      Data(int _time, float _temp, float _humid){
-        time = _time;
-        temperature = _temp;
-        humidity = _humid;
-      }
-  };
-
-  char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-  WiFiUDP ntpUDP;
-  NTPClient timeClient(ntpUDP, "pool.ntp.org", 0);
-  
-  const int dataPointLength = 1440;
-  int currentDataPoint = 0;
-  
-  Data *stationData[dataPointLength] = {};
-
   //eeprom
   #include <EEPROM.h>
 
@@ -52,10 +31,6 @@
   unsigned long previousMillis = 0;
   const long sensorInterval = 1000;
 
-    //time loop
-  unsigned long previousDataIntervalTime = 0;
-  const long dataPointInterval = 60000;
-
   //led indicator 
   const int greenLedPin =  D3;
   const int redLedPin =  D7;
@@ -71,6 +46,8 @@
   DHT dht(DHTPIN, DHTTYPE);
   ESP8266WebServer server(80);
   float h, t, f;
+
+  const int failTreshold = 10;
   
   void setup() {
     Serial.begin(115200);
@@ -90,7 +67,6 @@
   
   void StartServer(){
     int failCounter = 0;
-    int failTreshold = 10 ;
     
     WiFi.begin(ssid, password);  //Connect to the WiFi network
     while (WiFi.status() != WL_CONNECTED) {  //Wait for connection
@@ -147,26 +123,10 @@
       previousMillis = currentMillis;
       HandleWeatherData();
     }
-    if (currentMillis - previousDataIntervalTime >= dataPointInterval) {
-      previousDataIntervalTime = currentMillis;
-      AddDataPoint(timeClient.getEpochTime());
-    }
     //reset button logic
     resetState = digitalRead(rstButton);
     if(lastState == LOW && resetState == HIGH)
       pinMode(rstPin, HIGH);
-
-    // save the last state
-    lastState = resetState;
-  }
-  void AddDataPoint(int time){
-      if(currentDataPoint >= dataPointLength) currentDataPoint = 0;
-      
-      stationData[currentDataPoint] = new Data(time, t, h);
-      currentDataPoint++;
-      // for(int i = 0; i < dataPointLength; i++){
-      //   Serial.println(stationData[i]->temperature);
-      // }
   }
 
   bool ledState = false;
