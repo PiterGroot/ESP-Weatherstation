@@ -6,6 +6,8 @@
 #### Setup a reliable power source
 #### Build / buy a suitable enclosure
 
+<h3>Learn more: https://pitergroot.nl/pages/project-page.html?name=weather-station </h3>
+
 Setup |
 --- | 
 ![arduino1](https://user-images.githubusercontent.com/70685433/179217341-7b44769a-b075-4d04-b39d-ae2576d54b11.jpg)
@@ -13,4 +15,3 @@ Setup |
 ![arduino2](https://user-images.githubusercontent.com/70685433/179217343-5808ef3c-037b-4a17-a450-58cf38c445b2.jpg)
 
 ![image](https://user-images.githubusercontent.com/70685433/200116134-eee99e3e-4aa5-4d37-9ebf-2ba4d83a9027.png)
-
